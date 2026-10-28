@@ -1,6 +1,6 @@
 # Local observability
 
-This is a development-only stack with pinned container versions. It provides real metrics collection, log ingestion, and a provisioned Grafana dashboard. It does not implement the university workflow or AI repair engine.
+This is a development-only stack with pinned container versions. It provides real metrics collection, log ingestion, and a provisioned Grafana dashboard. It does not implement the server-recovery or AI diagnosis engine.
 
 ## Start
 
@@ -64,11 +64,15 @@ docker compose exec alloy alloy validate /etc/alloy/config.alloy
 
 - Write newline-delimited JSON into `logs/*.log`; Alloy mounts this directory read-only and forwards lines to Loki.
 - Expose application metrics and add their network-reachable targets to `prometheus/prometheus.yml` when the application exists. Container `localhost` is the container itself, not the host.
-- Use low-cardinality metric labels such as workflow type, step, and outcome. Do not label by student, event, or incident ID.
-- Preserve immutable workflow state in a database; logs are evidence, not the transaction system.
-- Add workflow backlog, failure, patch rejection, retry, and verified-recovery panels only when those metrics are actually emitted.
+- Use low-cardinality metric labels such as service, action type, and outcome. Do not label by student, event, or incident ID.
+- Preserve incident, proposal, approval, and action state in a durable store; telemetry supports the investigation and does not replace the recovery audit trail.
+- Add application availability, error rate, latency, resource pressure, action rejection, and verified-recovery panels only when those metrics are actually emitted.
 
 Alloy checkpoints and service data persist in Docker volumes. Prometheus retains three days of metrics. Loki currently has no automatic log-retention policy; use small fictional demo data and clean up deliberately when finished.
+
+## Planned k6 integration
+
+Grafana k6 will generate controlled traffic against the demo university service and measure baseline, fault, and recovery windows. The current Compose stack does not include k6, application traffic targets, or k6 metric export. Scripts and integration instructions will be added with implementation; see the root README for acceptance criteria.
 
 ## Stop
 

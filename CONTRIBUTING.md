@@ -12,7 +12,7 @@ Zenkai is a six-hour hackathon project. Keep changes small, reviewable, and runn
 - Push each verified commit with `git push`. For a new branch, use `git push -u origin <branch>`.
 - If a push fails, fix the authentication or divergence issue before continuing. Never silently leave completed changes unpushed.
 - Preserve other contributors' work. Do not force-push shared branches, rewrite published history, or discard unrelated changes. Prefer a corrective commit or `git revert`.
-- For collaboration, use short-lived branches such as `feat/schema-repair` and pull requests with a summary, validation, and limitations. Small authorised solo changes may go directly to `main`.
+- For collaboration, use short-lived branches such as `feat/service-recovery` and pull requests with a summary, validation, and limitations. Small authorised solo changes may go directly to `main`.
 
 ## Definition of done
 
@@ -24,20 +24,29 @@ Zenkai is a six-hour hackathon project. Keep changes small, reviewable, and runn
 
 ## Recovery-system invariants
 
-- AI proposes structured patches and allowed actions; deterministic validation controls execution.
-- Never invent payments, approvals, academic eligibility, or seat availability.
-- Preserve source events and protect student, payment, course, and term identities.
-- Recheck current prerequisites before writes; use idempotency and bounded retries.
-- Forbidden changes remain blocked even with human approval.
-- Mark an incident recovered only after verifying the intended destination records.
-- Use fictional data and explicitly identify simulated integrations and injected failures.
+- AI proposes structured configuration patches and registered operational actions; deterministic validation controls execution.
+- Preserve original evidence and known-good configuration snapshots. Never log credentials or expose arbitrary shell/database execution to the model.
+- Restrict actions to authorised targets and check configuration revisions, permissions, resource budgets, and current service state before writes.
+- Bind human approval to the exact proposal and target. Forbidden changes remain blocked even with approval.
+- Use action identities, per-target execution locks, cooldowns, and bounded retries; stop and escalate after failed verification.
+- Verify service health and correct requests under sustained test traffic before marking an incident recovered.
+- Keep student records, payments, and academic decisions outside infrastructure-repair actions.
+- Explicitly label demo services, injected faults, and injected unsafe proposals.
 
 ## Observability
 
 - Prometheus stores metrics, Loki stores logs, Alloy collects logs, and Grafana displays both.
-- Keep high-cardinality identifiers such as `workflow_id` and `event_id` in structured log bodies, not metric or Loki labels.
+- Keep high-cardinality identifiers such as `request_id` and `incident_id` in structured log bodies, not metric or Loki labels.
 - Redact credentials and personal data before logging or sending diagnostic context to an AI model.
 - Pin dependency and container versions; validate configuration before pushing changes.
+
+## Load testing with k6
+
+- Use bounded, repeatable tests against the owned demo environment or explicitly authorised targets.
+- Define response checks and thresholds; record baseline, injected-failure, and recovery windows separately.
+- Keep offered traffic stable through recovery. Report achieved throughput, latency, errors, rejections, and dropped iterations.
+- A passing health probe or a stopped load generator is insufficient evidence of recovery.
+- Only report load-test and healing results that were actually measured.
 
 ## Pull request notes
 
