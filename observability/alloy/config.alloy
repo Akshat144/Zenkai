@@ -1,0 +1,23 @@
+logging {
+  level = "info"
+}
+
+local.file_match "zenkai" {
+  path_targets = [{
+    "__path__" = "/var/log/zenkai/*.log",
+    "service_name" = "zenkai-demo",
+    "environment" = "development",
+  }]
+  sync_period = "5s"
+}
+
+loki.source.file "zenkai" {
+  targets    = local.file_match.zenkai.targets
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

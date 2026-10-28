@@ -8,7 +8,7 @@ Built for **CODE E FIESTA 2026 — Challenge 4: The Self-Healing AI Automation S
 
 ## Project status
 
-**Repository foundation.** Contribution standards and the MVP specification are in place. The recovery engine, demo integrations, student interface, and observability runtime are planned work; this repository does not yet demonstrate end-to-end healing.
+**Repository and observability foundation.** Contribution standards, the MVP specification, and a Docker Compose observability stack with a provisioned dashboard are in place. The recovery engine, demo integrations, and student interface are planned work; this repository does not yet demonstrate end-to-end healing.
 
 ## The problem
 
@@ -130,4 +130,4 @@ git clone https://github.com/arnavsx3/Zenkai.git
 cd Zenkai
 ```
 
-Application run commands will be added with the implementation. Cloning the repository alone does not start a recovery service.
+Start the observability foundation using [observability/README.md](observability/README.md). Application run commands will be added with the implementation. Cloning the repository alone does not start a recovery service.

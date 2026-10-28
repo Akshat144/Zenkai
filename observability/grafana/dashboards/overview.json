@@ -1,0 +1,43 @@
+{
+  "uid": "zenkai-overview",
+  "title": "Zenkai / Observability Foundation",
+  "description": "Infrastructure telemetry and collected demo logs. Workflow healing metrics will be added with the recovery engine.",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "tags": ["zenkai", "development"],
+  "timezone": "browser",
+  "refresh": "5s",
+  "time": {"from": "now-15m", "to": "now"},
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Foundation status",
+      "gridPos": {"h": 4, "w": 24, "x": 0, "y": 0},
+      "options": {
+        "mode": "markdown",
+        "content": "Prometheus + Grafana + Loki + Alloy are wired together. These panels show observability services and demo logs. The university connectors and AI recovery engine are planned work."
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Observability scrape targets (1 = reachable)",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 4},
+      "datasource": {"type": "prometheus", "uid": "zenkai-prometheus"},
+      "targets": [{"refId": "A", "expr": "up", "legendFormat": "{{job}}"}],
+      "fieldConfig": {"defaults": {"min": 0, "max": 1}, "overrides": []},
+      "options": {"legend": {"displayMode": "list", "placement": "bottom"}}
+    },
+    {
+      "id": 3,
+      "type": "logs",
+      "title": "Collected Zenkai logs (expand a line for JSON fields)",
+      "gridPos": {"h": 12, "w": 24, "x": 0, "y": 12},
+      "datasource": {"type": "loki", "uid": "zenkai-loki"},
+      "targets": [{"refId": "A", "expr": "{service_name=\"zenkai-demo\"}", "queryType": "range"}],
+      "options": {"showTime": true, "wrapLogMessage": true, "sortOrder": "Descending", "enableLogDetails": true}
+    }
+  ]
+}
